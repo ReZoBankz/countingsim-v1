@@ -36,7 +36,8 @@ window.GameRegistry = [];
 const gameFiles = [
   "blackjack-beginner.js",
   "blackjack-classic.js",
-  "blackjack-vegas65.js"
+  "blackjack-vegas65.js",
+  "blackjack-custom.js"
 ];
 
 /*
