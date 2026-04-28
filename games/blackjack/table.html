@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+
+  <!-- Mobile + desktop responsive -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>CountingSim Blackjack</title>
+
+  <!--
+    This page uses its own CSS.
+    It does NOT use menu.css
+  -->
+  <link rel="stylesheet" href="table.css" />
+</head>
+
+<body>
+  <!--
+    COUNTINGSIM BLACKJACK ENGINE
+
+    This page is ONE reusable blackjack engine.
+
+    It will be used for:
+    - blackjack-custom
+    - blackjack-classic
+    - blackjack-vegas65
+    - blackjack-singledeck
+    - future sidebet tables
+
+    The selected preset comes from URL:
+
+    table.html?table=blackjack-custom
+
+    table.js reads that and loads the correct rules/theme.
+  -->
+
+  <main class="table-page">
+
+    <!-- TOP BAR -->
+    <header class="top-bar">
+
+      <!-- Back to arcade menu -->
+      <a href="../../index.html" class="menu-link">
+        ← Menu
+      </a>
+
+      <!-- Dynamic table name -->
+      <div class="title-wrap">
+        <div class="small-label">COUNTINGSIM</div>
+        <h1 id="tableTitle">Loading Table...</h1>
+      </div>
+
+      <!-- Right side controls -->
+      <div class="top-actions">
+        <button id="helpBtn" class="blue-btn">Rules</button>
+        <button id="newShoeBtn" class="gray-btn">New Shoe</button>
+      </div>
+
+    </header>
+
+    <!-- STATUS BAR -->
+    <section class="status-bar">
+
+      <div class="stat-box">
+        <span>Bankroll</span>
+        <strong id="bankrollText">$1000</strong>
+      </div>
+
+      <div class="stat-box">
+        <span>Bet</span>
+        <strong id="betText">$25</strong>
+      </div>
+
+      <div class="stat-box">
+        <span>Count</span>
+        <strong id="countText">0</strong>
+      </div>
+
+      <div class="stat-box">
+        <span>True Count</span>
+        <strong id="trueCountText">0</strong>
+      </div>
+
+      <div class="stat-box">
+        <span>Decks Left</span>
+        <strong id="decksLeftText">6.0</strong>
+      </div>
+
+    </section>
+
+    <!-- TABLE AREA -->
+    <section id="feltTable" class="felt-table">
+
+      <!-- Dealer zone -->
+      <div class="dealer-zone">
+
+        <div class="zone-label">
+          Dealer
+        </div>
+
+        <div id="dealerCards" class="card-row">
+          <!-- Cards inserted by JS -->
+        </div>
+
+        <div id="dealerTotal" class="hand-total">
+          Total: 0
+        </div>
+
+      </div>
+
+      <!-- Center message -->
+      <div id="roundMessage" class="round-message">
+        Place your bet and press Deal
+      </div>
+
+      <!-- Player zone -->
+      <div class="player-zone">
+
+        <div class="zone-label">
+          Player
+        </div>
+
+        <!--
+          JS can later create multiple hands here:
+          hand 1
+          hand 2
+          split hands
+        -->
+        <div id="playerHands" class="hands-wrap">
+
+          <div class="hand-box active-hand">
+
+            <div class="hand-header">
+              <span>Hand 1</span>
+              <span id="hand1Bet">$25</span>
+            </div>
+
+            <div id="playerCards" class="card-row">
+              <!-- Cards inserted by JS -->
+            </div>
+
+            <div id="playerTotal" class="hand-total">
+              Total: 0
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- BETTING BAR -->
+    <section class="bet-bar">
+
+      <div class="bet-left">
+
+        <button class="chip-btn" data-chip="1">$1</button>
+        <button class="chip-btn" data-chip="5">$5</button>
+        <button class="chip-btn" data-chip="25">$25</button>
+        <button class="chip-btn" data-chip="100">$100</button>
+
+      </div>
+
+      <div class="bet-right">
+
+        <button id="clearBetBtn" class="gray-btn">
+          Clear
+        </button>
+
+        <button id="dealBtn" class="green-btn">
+          Deal
+        </button>
+
+      </div>
+
+    </section>
+
+    <!-- ACTION BAR -->
+    <section class="action-bar">
+
+      <button id="hitBtn" class="green-btn">Hit</button>
+      <button id="standBtn" class="gray-btn">Stand</button>
+      <button id="doubleBtn" class="blue-btn">Double</button>
+      <button id="splitBtn" class="blue-btn">Split</button>
+      <button id="surrenderBtn" class="red-btn">Surrender</button>
+      <button id="insuranceBtn" class="gray-btn">Insurance</button>
+
+    </section>
+
+  </main>
+
+  <!-- RULES MODAL -->
+  <div id="rulesModal" class="modal">
+
+    <div class="modal-box">
+
+      <div class="modal-top">
+
+        <div>
+          <div class="small-label">TABLE RULES</div>
+          <h2 id="rulesTitle">Rules</h2>
+        </div>
+
+        <button id="closeRulesBtn" class="red-btn">
+          Close
+        </button>
+
+      </div>
+
+      <div id="rulesBody" class="modal-body">
+        Loading rules...
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- RESULT POPUP -->
+  <div id="toastPopup" class="toast-popup">
+    Win
+  </div>
+
+  <!--
+    table.js handles:
+    - loading preset rules
+    - theme changes
+    - dealing cards
+    - betting
+    - actions
+    - count system
+    - multiple hands
+  -->
+  <script src="table.js"></script>
+
+</body>
+</html>
