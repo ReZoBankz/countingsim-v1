@@ -1,0 +1,501 @@
+/*
+  CountingSim v1.02
+  FILE: menu.css
+
+  This stylesheet controls the arcade launcher only.
+
+  It does NOT control the blackjack table screen.
+  The actual blackjack game will use its own CSS later:
+  games/blackjack/table.css
+*/
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  background: #020402;
+  color: #d8ffd8;
+  font-family: Consolas, "Courier New", monospace;
+  overflow: hidden;
+}
+
+button {
+  border: none;
+  border-radius: 999px;
+  padding: 10px 16px;
+  font-size: 13px;
+  font-weight: 800;
+  color: #ffffff;
+  cursor: pointer;
+  background: linear-gradient(180deg, #1ea84b, #0f6b2d);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.28);
+  transition: 0.15s ease;
+}
+
+button:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+
+button.secondary {
+  background: linear-gradient(180deg, #505050, #262626);
+}
+
+button.info {
+  background: linear-gradient(180deg, #3d84ff, #194ca3);
+}
+
+button.danger {
+  background: linear-gradient(180deg, #d14444, #741919);
+}
+
+.small-btn {
+  padding: 7px 11px;
+  font-size: 11px;
+}
+
+.arcade-screen {
+  position: relative;
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 30px;
+  background:
+    radial-gradient(circle at center, rgba(0, 90, 35, 0.45), rgba(0, 0, 0, 0.96) 70%),
+    linear-gradient(180deg, #021006, #000000);
+}
+
+.scanlines {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 5;
+  opacity: 0.22;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.05) 0px,
+    rgba(255, 255, 255, 0.05) 1px,
+    transparent 2px,
+    transparent 5px
+  );
+}
+
+.menu-shell {
+  position: relative;
+  z-index: 10;
+  width: min(1180px, 100%);
+  min-height: 760px;
+  padding: 28px;
+  border: 3px solid #63ff8f;
+  border-radius: 24px;
+  background: rgba(0, 0, 0, 0.75);
+  box-shadow:
+    0 0 30px rgba(99, 255, 143, 0.25),
+    inset 0 0 45px rgba(99, 255, 143, 0.08);
+}
+
+/* HEADER */
+
+.menu-header {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 22px;
+  align-items: start;
+  margin-bottom: 34px;
+}
+
+.title-block {
+  text-align: left;
+}
+
+.kicker {
+  font-size: 13px;
+  letter-spacing: 0.26em;
+  color: #8affaa;
+  opacity: 0.86;
+}
+
+h1 {
+  font-size: 64px;
+  letter-spacing: 0.12em;
+  margin-top: 8px;
+  color: #ffffff;
+  text-shadow:
+    0 0 12px rgba(99, 255, 143, 0.75),
+    0 0 28px rgba(99, 255, 143, 0.35);
+}
+
+.version {
+  margin-top: 6px;
+  font-size: 14px;
+  color: #b6ffca;
+  opacity: 0.76;
+}
+
+/* PLAYER PANEL */
+
+.player-panel {
+  padding: 16px;
+  border: 1px solid rgba(99, 255, 143, 0.28);
+  border-radius: 18px;
+  background: rgba(0, 20, 8, 0.76);
+  box-shadow: inset 0 0 25px rgba(99, 255, 143, 0.05);
+}
+
+.player-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.player-label {
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #8affaa;
+  opacity: 0.75;
+}
+
+.player-name {
+  margin-top: 3px;
+  font-size: 20px;
+  font-weight: 900;
+  color: #ffffff;
+}
+
+.auth-buttons {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.level-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+  font-size: 12px;
+  color: #d8ffd8;
+  opacity: 0.9;
+}
+
+.xp-bar {
+  height: 12px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.09);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.xp-fill {
+  width: 0%;
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #63ff8f, #d6ff63);
+  box-shadow: 0 0 12px rgba(99, 255, 143, 0.45);
+  transition: width 0.25s ease;
+}
+
+/* MAIN MENU LAYOUT */
+
+.menu-layout {
+  display: grid;
+  grid-template-columns: 1fr 390px;
+  gap: 28px;
+  align-items: start;
+}
+
+.game-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.game-option {
+  display: grid;
+  grid-template-columns: 34px 1fr;
+  gap: 12px;
+  align-items: center;
+  min-height: 66px;
+  padding: 12px 16px;
+  border: 1px solid rgba(99, 255, 143, 0.25);
+  border-radius: 14px;
+  background: rgba(0, 40, 14, 0.35);
+  color: #d8ffd8;
+  cursor: pointer;
+  transition: 0.15s ease;
+}
+
+.game-option:hover {
+  background: rgba(99, 255, 143, 0.10);
+}
+
+.game-option.active {
+  border-color: #63ff8f;
+  background: rgba(99, 255, 143, 0.16);
+  box-shadow: 0 0 18px rgba(99, 255, 143, 0.18);
+  transform: translateX(8px);
+}
+
+.selector-arrow {
+  font-size: 24px;
+  color: #63ff8f;
+  opacity: 0;
+}
+
+.game-option.active .selector-arrow {
+  opacity: 1;
+  animation: pulseArrow 0.8s infinite alternate;
+}
+
+.option-title {
+  font-size: 20px;
+  font-weight: 900;
+  color: #ffffff;
+}
+
+.option-subtitle {
+  margin-top: 4px;
+  font-size: 12px;
+  opacity: 0.72;
+}
+
+/* INFO PANEL */
+
+.game-info {
+  min-height: 430px;
+  padding: 20px;
+  border: 1px solid rgba(99, 255, 143, 0.28);
+  border-radius: 18px;
+  background: rgba(0, 20, 8, 0.76);
+  box-shadow: inset 0 0 25px rgba(99, 255, 143, 0.05);
+}
+
+.info-label {
+  margin-bottom: 12px;
+  font-size: 12px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #8affaa;
+  opacity: 0.8;
+}
+
+.game-info h2 {
+  margin-bottom: 12px;
+  font-size: 30px;
+  color: #ffffff;
+}
+
+.game-info p {
+  margin-bottom: 22px;
+  font-size: 14px;
+  line-height: 1.55;
+  opacity: 0.84;
+}
+
+.rule-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+/*
+  These boxes are filled by menu.js from the selected game file.
+
+  Future table file fields:
+  type
+  decks
+  payout
+  dealer
+*/
+.rule-grid div {
+  padding: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.rule-grid span {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 11px;
+  opacity: 0.65;
+}
+
+.rule-grid strong {
+  font-size: 18px;
+  color: #ffffff;
+}
+
+.menu-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 18px;
+}
+
+.info-note {
+  margin-top: 18px;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(99, 255, 143, 0.16);
+  background: rgba(99, 255, 143, 0.07);
+  font-size: 13px;
+  line-height: 1.45;
+  color: #d8ffd8;
+}
+
+/* FOOTER */
+
+.controls-footer {
+  position: absolute;
+  left: 28px;
+  right: 28px;
+  bottom: 20px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 18px;
+  font-size: 13px;
+  color: #b6ffca;
+  opacity: 0.82;
+}
+
+/* MODALS */
+
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.74);
+}
+
+.modal.show {
+  display: flex;
+}
+
+.modal-dialog {
+  width: min(820px, 100%);
+  max-height: 88vh;
+  overflow: hidden;
+  border: 2px solid rgba(99, 255, 143, 0.45);
+  border-radius: 22px;
+  background: #08130b;
+  box-shadow:
+    0 0 30px rgba(99, 255, 143, 0.22),
+    inset 0 0 30px rgba(99, 255, 143, 0.06);
+}
+
+.small-dialog {
+  width: min(520px, 100%);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: center;
+  padding: 18px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.modal-kicker {
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #8affaa;
+  opacity: 0.8;
+}
+
+.modal-header h2 {
+  margin-top: 5px;
+  font-size: 28px;
+  color: #ffffff;
+}
+
+.modal-body {
+  padding: 20px;
+  overflow: auto;
+  max-height: 64vh;
+  line-height: 1.65;
+  font-size: 14px;
+}
+
+.modal-body h3 {
+  margin: 16px 0 8px;
+  color: #ffffff;
+}
+
+.modal-body p {
+  margin-bottom: 10px;
+  opacity: 0.9;
+}
+
+.modal-body ul {
+  margin: 8px 0 14px 20px;
+}
+
+.tip-box {
+  margin-top: 14px;
+  padding: 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(99, 255, 143, 0.18);
+  background: rgba(99, 255, 143, 0.08);
+}
+
+/* ANIMATIONS */
+
+@keyframes pulseArrow {
+  from {
+    transform: translateX(0);
+    opacity: 0.5;
+  }
+
+  to {
+    transform: translateX(6px);
+    opacity: 1;
+  }
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 950px) {
+  body {
+    overflow: auto;
+  }
+
+  .arcade-screen {
+    place-items: start;
+  }
+
+  .menu-shell {
+    min-height: auto;
+  }
+
+  .menu-header {
+    grid-template-columns: 1fr;
+  }
+
+  h1 {
+    font-size: 42px;
+  }
+
+  .menu-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .controls-footer {
+    position: static;
+    margin-top: 24px;
+  }
+}
