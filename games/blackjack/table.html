@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>CountingSim Blackjack</title>
+
+  <link rel="stylesheet" href="table.css" />
+</head>
+
+<body>
+  <main class="blackjack-app">
+
+    <!-- TOP HUD -->
+    <header class="table-hud">
+      <a href="../../index.html" class="hud-btn">← Menu</a>
+
+      <div class="hud-brand">
+        <div class="brand-title">CountingSim</div>
+        <div id="tableSubtitle" class="brand-subtitle">Custom Blackjack Table</div>
+      </div>
+
+      <div class="hud-stats">
+        <div class="hud-stat">
+          <span>Bankroll</span>
+          <strong>$<span id="bankrollDisplay">1000.00</span></strong>
+          <button id="addMoneyBtn" class="mini-btn">+</button>
+        </div>
+
+        <div class="hud-stat">
+          <span>Running</span>
+          <strong id="runningCountDisplay">0</strong>
+        </div>
+
+        <div class="hud-stat">
+          <span>True</span>
+          <strong id="trueCountDisplay">0.0</strong>
+        </div>
+
+        <div class="hud-stat">
+          <span>Cards</span>
+          <strong id="shoeLeftDisplay">0</strong>
+        </div>
+      </div>
+    </header>
+
+    <!-- TRAINING / TABLE CONTROLS -->
+    <section class="training-bar">
+      <label class="check-control">
+        <input id="showCount" type="checkbox" checked />
+        Show Count
+      </label>
+
+      <label class="check-control">
+        <input id="showCardCountOverlay" type="checkbox" />
+        Card Overlay
+      </label>
+
+      <div class="speed-buttons">
+        <span>Speed</span>
+        <button id="speedSlowBtn" class="secondary speed-btn">Slow</button>
+        <button id="speedNormalBtn" class="speed-btn active-speed">Normal</button>
+        <button id="speedFastBtn" class="info speed-btn">Fast</button>
+      </div>
+
+      <button id="rulesBtn" class="info">Rules</button>
+      <button id="helpBtn" class="info">Help</button>
+      <button id="settingsBtn" class="secondary">Settings</button>
+      <button id="startShoeBtn">Start Shoe</button>
+      <button id="stopBtn" class="danger">Stop</button>
+    </section>
+
+    <!-- MAIN TABLE -->
+    <section id="tableWrap" class="casino-table felt-green">
+
+      <div class="table-border"></div>
+
+      <!-- FELT PRINT -->
+      <div class="felt-print">
+        <div id="feltTitle">BLACKJACK</div>
+        <div id="feltPayout">BLACKJACK PAYS 3 TO 2</div>
+        <div id="feltDealerRule">DEALER HITS SOFT 17</div>
+        <div id="feltInsurance">INSURANCE PAYS 2 TO 1</div>
+      </div>
+
+      <!-- DEALER -->
+      <section class="dealer-area">
+        <div class="dealer-title" id="dealerTitle">Dealer</div>
+        <div id="dealerCards" class="dealer-cards cards stagger"></div>
+      </section>
+
+      <!-- SHOE -->
+      <aside class="card-shoe" id="cardShoe">
+        <div class="shoe-mouth"></div>
+        <div class="shoe-stack"></div>
+        <div class="shoe-count"><span id="shoeCountOnShoe">0</span> left</div>
+      </aside>
+
+      <!-- TABLE MESSAGE -->
+      <div id="tableMessage" class="table-message">
+        Select a chip, place your bets, then deal.
+      </div>
+
+      <!-- FIVE BETTING SPOTS -->
+      <section class="seat-row">
+
+        <div class="player-seat" data-seat="0">
+          <div class="seat-label-row">
+            <span>Seat 1</span>
+            <select class="seat-mode" data-seat="0">
+              <option value="player" selected>Player</option>
+              <option value="bot">Bot</option>
+              <option value="empty">Empty</option>
+            </select>
+          </div>
+
+          <div class="seat-stack" id="seatStack0"></div>
+          <div class="action-pod" id="actions-0"></div>
+
+          <button class="bet-spot active-bet-spot" data-seat="0">
+            <span class="bet-label">Bet</span>
+            <strong>$<span id="seatBet0">10</span></strong>
+          </button>
+        </div>
+
+        <div class="player-seat" data-seat="1">
+          <div class="seat-label-row">
+            <span>Seat 2</span>
+            <select class="seat-mode" data-seat="1">
+              <option value="player">Player</option>
+              <option value="bot">Bot</option>
+              <option value="empty" selected>Empty</option>
+            </select>
+          </div>
+
+          <div class="seat-stack" id="seatStack1"></div>
+          <div class="action-pod" id="actions-1"></div>
+
+          <button class="bet-spot" data-seat="1">
+            <span class="bet-label">Bet</span>
+            <strong>$<span id="seatBet1">0</span></strong>
+          </button>
+        </div>
+
+        <div class="player-seat" data-seat="2">
+          <div class="seat-label-row">
+            <span>Seat 3</span>
+            <select class="seat-mode" data-seat="2">
+              <option value="player">Player</option>
+              <option value="bot">Bot</option>
+              <option value="empty" selected>Empty</option>
+            </select>
+          </div>
+
+          <div class="seat-stack" id="seatStack2"></div>
+          <div class="action-pod" id="actions-2"></div>
+
+          <button class="bet-spot" data-seat="2">
+            <span class="bet-label">Bet</span>
+            <strong>$<span id="seatBet2">0</span></strong>
+          </button>
+        </div>
+
+        <div class="player-seat" data-seat="3">
+          <div class="seat-label-row">
+            <span>Seat 4</span>
+            <select class="seat-mode" data-seat="3">
+              <option value="player">Player</option>
+              <option value="bot">Bot</option>
+              <option value="empty" selected>Empty</option>
+            </select>
+          </div>
+
+          <div class="seat-stack" id="seatStack3"></div>
+          <div class="action-pod" id="actions-3"></div>
+
+          <button class="bet-spot" data-seat="3">
+            <span class="bet-label">Bet</span>
+            <strong>$<span id="seatBet3">0</span></strong>
+          </button>
+        </div>
+
+        <div class="player-seat" data-seat="4">
+          <div class="seat-label-row">
+            <span>Seat 5</span>
+            <select class="seat-mode" data-seat="4">
+              <option value="player">Player</option>
+              <option value="bot">Bot</option>
+              <option value="empty" selected>Empty</option>
+            </select>
+          </div>
+
+          <div class="seat-stack" id="seatStack4"></div>
+          <div class="action-pod" id="actions-4"></div>
+
+          <button class="bet-spot" data-seat="4">
+            <span class="bet-label">Bet</span>
+            <strong>$<span id="seatBet4">0</span></strong>
+          </button>
+        </div>
+
+      </section>
+    </section>
+
+    <!-- BOTTOM CASINO CONTROLS -->
+    <footer class="bottom-console">
+
+      <div class="chip-rack">
+        <button class="rack-chip chip-1 selected-chip" data-chip="1">$1</button>
+        <button class="rack-chip chip-5" data-chip="5">$5</button>
+        <button class="rack-chip chip-10" data-chip="10">$10</button>
+        <button class="rack-chip chip-25" data-chip="25">$25</button>
+        <button class="rack-chip chip-100" data-chip="100">$100</button>
+      </div>
+
+      <div class="main-actions">
+        <button id="dealBtn" disabled>Deal</button>
+        <button id="undoBetBtn" class="secondary">Undo</button>
+        <button id="clearBetsBtn" class="danger">Clear</button>
+        <button id="repeatBetBtn" class="secondary">Repeat</button>
+        <button id="doubleBetsBtn" class="secondary">Double Bet</button>
+        <button id="newRoundBtn" class="secondary" disabled>New Round</button>
+      </div>
+
+      <div class="bot-fill">
+        <span>Auto Bots</span>
+        <button class="bot-fill-btn secondary" data-bots="0">0</button>
+        <button class="bot-fill-btn secondary" data-bots="1">1</button>
+        <button class="bot-fill-btn secondary" data-bots="2">2</button>
+        <button class="bot-fill-btn secondary" data-bots="3">3</button>
+        <button class="bot-fill-btn secondary" data-bots="4">4</button>
+      </div>
+
+    </footer>
+
+    <!-- LOG HIDDEN BUT KEPT FOR DEBUGGING -->
+    <section class="log panel" id="log"></section>
+
+  </main>
+
+  <!-- RESULT BANNER -->
+  <div id="resultBanner" class="result-banner"></div>
+
+  <!-- ADD MONEY MODAL -->
+  <div id="addMoneyModal" class="modal">
+    <div class="modal-dialog small-dialog">
+      <div class="modal-header">
+        <div>
+          <div class="modal-kicker">Bankroll</div>
+          <div class="modal-title">Add Practice Money</div>
+        </div>
+        <button id="closeAddMoneyBtn" class="danger">Close</button>
+      </div>
+
+      <div class="modal-body money-options">
+        <button data-add-money="10000">Add $10K</button>
+        <button data-add-money="100000">Add $100K</button>
+        <button data-add-money="1000000">Add $1M</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SETTINGS MODAL -->
+  <div id="settingsModal" class="modal">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <div>
+          <div class="modal-kicker">Table Settings</div>
+          <div class="modal-title">Custom Rules</div>
+        </div>
+        <button id="closeSettingsBtn" class="danger">Close</button>
+      </div>
+
+      <div class="modal-body settings-grid">
+        <label>
+          Decks
+          <select id="numDecks">
+            <option value="1">1 Deck</option>
+            <option value="2">2 Decks</option>
+            <option value="4">4 Decks</option>
+            <option value="6" selected>6 Decks</option>
+            <option value="8">8 Decks</option>
+          </select>
+        </label>
+
+        <label>
+          Blackjack Pays
+          <select id="blackjackPayoutSelect">
+            <option value="1.5" selected>3:2</option>
+            <option value="1.2">6:5</option>
+            <option value="2">2:1</option>
+            <option value="3">3:1</option>
+          </select>
+        </label>
+
+        <label>
+          Dealer Soft 17
+          <select id="soft17Select">
+            <option value="hit" selected>Hits Soft 17</option>
+            <option value="stand">Stands Soft 17</option>
+          </select>
+        </label>
+
+        <label class="checkbox-label">
+          <input id="surrenderAllowedToggle" type="checkbox" checked />
+          Surrender Allowed
+        </label>
+
+        <label class="checkbox-label">
+          <input id="insuranceAllowedToggle" type="checkbox" checked />
+          Insurance Allowed
+        </label>
+
+        <label class="checkbox-label">
+          <input id="doubleAfterSplitToggle" type="checkbox" checked />
+          Double After Split
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <!-- HELP MODAL -->
+  <div id="helpModal" class="modal">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <div>
+          <div class="modal-kicker">Training Guide</div>
+          <div id="helpTitle" class="modal-title">Welcome</div>
+        </div>
+        <button id="closeHelpBtn" class="danger">Close</button>
+      </div>
+
+      <div id="helpBody" class="modal-body"></div>
+
+      <div class="modal-footer">
+        <div id="helpPageDots" class="page-dots"></div>
+        <div class="help-nav">
+          <button id="helpPrevBtn" class="secondary">Previous</button>
+          <button id="helpNextBtn">Next</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RULES MODAL -->
+  <div id="rulesModal" class="modal">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <div>
+          <div class="modal-kicker">Table Rules</div>
+          <div class="modal-title">Rules</div>
+        </div>
+        <button id="closeRulesBtn" class="danger">Close</button>
+      </div>
+
+      <div id="rulesBody" class="modal-body"></div>
+    </div>
+  </div>
+
+  <script src="table.js"></script>
+</body>
+</html>
