@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>CountingSim v1.04</title>
+
+  <link rel="stylesheet" href="menu.css" />
+</head>
+
+<body>
+  <main class="arcade-screen">
+    <div class="scanlines"></div>
+
+    <section class="menu-shell">
+
+      <header class="menu-header">
+        <div class="title-block">
+          <div class="kicker">CASINO TRAINING PLATFORM</div>
+          <h1>COUNTINGSIM</h1>
+          <div class="version">v1.04 Arcade Launcher</div>
+        </div>
+
+        <aside class="player-panel">
+          <div class="player-row">
+            <div>
+              <div class="player-label">Player</div>
+              <div id="playerName" class="player-name">Guest</div>
+            </div>
+
+            <div class="auth-buttons">
+              <button id="loginBtn" class="small-btn secondary">Login</button>
+              <button id="createAccountBtn" class="small-btn">Create</button>
+            </div>
+          </div>
+
+          <div class="level-row">
+            <div>Level <strong id="playerLevel">1</strong></div>
+            <div>XP <span id="playerXpText">0 / 100</span></div>
+          </div>
+
+          <div class="xp-bar">
+            <div id="xpFill" class="xp-fill"></div>
+          </div>
+        </aside>
+      </header>
+
+      <section class="menu-layout">
+
+        <section class="game-list-wrap">
+          <div class="breadcrumb">
+            <span id="menuCrumb">Main Menu</span>
+          </div>
+
+          <div class="list-title" id="listTitle">
+            Choose Game Type
+          </div>
+
+          <div id="gameList" class="game-list">
+            <!-- menu.js fills this -->
+          </div>
+        </section>
+
+        <aside class="game-info">
+          <div class="info-label">Selected</div>
+
+          <div class="preview-frame">
+            <img id="previewImage" class="preview-image hidden" src="" alt="Game Preview" />
+            <div id="previewPlaceholder" class="preview-placeholder">
+              COUNTINGSIM
+            </div>
+          </div>
+
+          <h2 id="gameName">Loading...</h2>
+
+          <p id="gameDescription">
+            Loading game information...
+          </p>
+
+          <div class="rule-grid">
+            <div>
+              <span>Type</span>
+              <strong id="ruleType">---</strong>
+            </div>
+
+            <div>
+              <span>Decks / Modes</span>
+              <strong id="ruleDecks">---</strong>
+            </div>
+
+            <div>
+              <span>Payout</span>
+              <strong id="rulePayout">---</strong>
+            </div>
+
+            <div>
+              <span>Dealer / Rules</span>
+              <strong id="ruleDealer">---</strong>
+            </div>
+          </div>
+
+          <div class="menu-actions">
+            <button id="playBtn">Select / Play</button>
+            <button id="rulesBtn" class="info">Rules</button>
+          </div>
+
+          <div class="info-note">
+            <strong>Controls:</strong><br />
+            W / &uarr; = Move Up<br />
+            S / &darr; = Move Down<br />
+            Enter = Select / Play<br />
+            R = Rules<br />
+            Esc / Backspace = Back
+          </div>
+        </aside>
+
+      </section>
+
+      <footer class="controls-footer">
+        <div>[ W / &uarr; ] Up</div>
+        <div>[ S / &darr; ] Down</div>
+        <div>[ Enter ] Select</div>
+        <div>[ R ] Rules</div>
+        <div>[ Esc ] Back</div>
+      </footer>
+
+    </section>
+  </main>
+
+  <!-- RULES MODAL -->
+  <div id="rulesModal" class="modal">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <div>
+          <div class="modal-kicker">Rules / How It Works</div>
+          <h2 id="rulesTitle">Rules</h2>
+        </div>
+
+        <button id="closeRulesBtn" class="danger">Close</button>
+      </div>
+
+      <div id="rulesContent" class="modal-body">
+        Rules loading...
+      </div>
+    </div>
+  </div>
+
+  <!-- ACCOUNT MODAL PLACEHOLDER -->
+  <div id="accountModal" class="modal">
+    <div class="modal-dialog small-dialog">
+      <div class="modal-header">
+        <div>
+          <div class="modal-kicker">Player Account</div>
+          <h2 id="accountModalTitle">Coming Soon</h2>
+        </div>
+
+        <button id="closeAccountBtn" class="danger">Close</button>
+      </div>
+
+      <div class="modal-body">
+        <p>
+          Player accounts will connect later through Wix Members, Firebase,
+          Supabase, or another backend.
+        </p>
+
+        <p>
+          For now, this launcher can show demo XP and levels locally on this device.
+        </p>
+
+        <div class="tip-box">
+          Future features: cloud saves, achievements, daily rewards, saved bankroll,
+          subscriptions, table unlocks, and player stats.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 
+    SCRIPT ORDER MATTERS
+
+    1. registry/loadGames.js creates window.GameRegistry and loads game files.
+    2. registry/games/*.js files register games/tables.
+    3. menu.js builds this menu from the registry.
+
+    Do not change this order.
+  -->
+  <script src="registry/loadGames.js"></script>
+  <script src="menu.js"></script>
+</body>
+</html>
